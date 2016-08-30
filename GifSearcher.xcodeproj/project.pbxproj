@@ -12,6 +12,9 @@
 		5B15786A1D7529BF001A4EEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B1578681D7529BF001A4EEF /* Main.storyboard */; };
 		5B15786C1D7529BF001A4EEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B15786B1D7529BF001A4EEF /* Assets.xcassets */; };
 		5B15786F1D7529BF001A4EEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B15786D1D7529BF001A4EEF /* LaunchScreen.storyboard */; };
+		5B1578771D752BC8001A4EEF /* GiphyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1578761D752BC8001A4EEF /* GiphyManager.swift */; };
+		5B15787E1D753482001A4EEF /* GiphyGif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B15787D1D753482001A4EEF /* GiphyGif.swift */; };
+		5B1578811D753C51001A4EEF /* GiphyConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1578801D753C51001A4EEF /* GiphyConfig.swift */; };
 		6CCE2927179B2485D2B2F9D0 /* Pods_GifSearcher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A22E9E63AC4FF20A6A766273 /* Pods_GifSearcher.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +28,9 @@
 		5B15786B1D7529BF001A4EEF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5B15786E1D7529BF001A4EEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5B1578701D7529BF001A4EEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5B1578761D752BC8001A4EEF /* GiphyManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GiphyManager.swift; path = Managers/GiphyManager.swift; sourceTree = "<group>"; };
+		5B15787D1D753482001A4EEF /* GiphyGif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GiphyGif.swift; path = Models/GiphyGif.swift; sourceTree = "<group>"; };
+		5B1578801D753C51001A4EEF /* GiphyConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GiphyConfig.swift; path = Constants/GiphyConfig.swift; sourceTree = "<group>"; };
 		A22E9E63AC4FF20A6A766273 /* Pods_GifSearcher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GifSearcher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -69,14 +75,65 @@
 		5B1578631D7529BF001A4EEF /* GifSearcher */ = {
 			isa = PBXGroup;
 			children = (
+				5B15787F1D753C36001A4EEF /* Constants */,
+				5B15787C1D75345B001A4EEF /* View Controllers */,
+				5B15787B1D753456001A4EEF /* View Models */,
+				5B15787A1D753451001A4EEF /* Views */,
+				5B1578791D75344B001A4EEF /* Models */,
+				5B1578781D75343C001A4EEF /* Data Managers */,
 				5B1578641D7529BF001A4EEF /* AppDelegate.swift */,
-				5B1578661D7529BF001A4EEF /* ViewController.swift */,
 				5B1578681D7529BF001A4EEF /* Main.storyboard */,
 				5B15786B1D7529BF001A4EEF /* Assets.xcassets */,
 				5B15786D1D7529BF001A4EEF /* LaunchScreen.storyboard */,
 				5B1578701D7529BF001A4EEF /* Info.plist */,
 			);
 			path = GifSearcher;
+			sourceTree = "<group>";
+		};
+		5B1578781D75343C001A4EEF /* Data Managers */ = {
+			isa = PBXGroup;
+			children = (
+				5B1578761D752BC8001A4EEF /* GiphyManager.swift */,
+			);
+			name = "Data Managers";
+			sourceTree = "<group>";
+		};
+		5B1578791D75344B001A4EEF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5B15787D1D753482001A4EEF /* GiphyGif.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		5B15787A1D753451001A4EEF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		5B15787B1D753456001A4EEF /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "View Models";
+			sourceTree = "<group>";
+		};
+		5B15787C1D75345B001A4EEF /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5B1578661D7529BF001A4EEF /* ViewController.swift */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		5B15787F1D753C36001A4EEF /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				5B1578801D753C51001A4EEF /* GiphyConfig.swift */,
+			);
+			name = Constants;
 			sourceTree = "<group>";
 		};
 		CBEC3891BE775F629DE48B8A /* Pods */ = {
@@ -210,8 +267,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B15787E1D753482001A4EEF /* GiphyGif.swift in Sources */,
 				5B1578671D7529BF001A4EEF /* ViewController.swift in Sources */,
+				5B1578811D753C51001A4EEF /* GiphyConfig.swift in Sources */,
 				5B1578651D7529BF001A4EEF /* AppDelegate.swift in Sources */,
+				5B1578771D752BC8001A4EEF /* GiphyManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
