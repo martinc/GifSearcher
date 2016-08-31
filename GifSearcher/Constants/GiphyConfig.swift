@@ -10,14 +10,15 @@ import Foundation
 
 // Configuration
 
+enum GiphyEndpoint: String {
+    case Trending = "/gifs/trending"
+    case Search = "/gifs/search"
+}
+
 struct GiphyConfig {
     static let apiKey = "dc6zaTOxFJmzC"
     static let host = "http://api.giphy.com"
-    
-    struct Endpoints {
-        static let trending = "/v1/gifs/trending"
-        static let search = "/v1/gifs/search"
-    }
+    static let apiVersion = "/v1"
     
     struct Params {
         static let apiKey = "api_key"

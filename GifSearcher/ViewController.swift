@@ -14,8 +14,12 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        GiphyManager.sharedInstance.searchForGifs("cats") { gifs in
-            print("Got \(gifs.count) GIFs to diplay")
+        _ = GiphyManager.sharedInstance.searchForGifs("cats").subscribeNext { gifs in
+            print("Got \(gifs.count) cat GIFs to diplay")
+        }
+        
+        _ = GiphyManager.sharedInstance.fetchTrendingGifs().subscribeNext { gifs in
+            print("Got \(gifs.count) trending GIFs to diplay")
         }
     
     }
