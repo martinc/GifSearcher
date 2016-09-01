@@ -28,7 +28,6 @@ class GiphyManager {
                 .subscribeNext({ jsonDictionary in
 
                     let gifs = GiphyGif.listFromResponse(jsonDictionary)
-                    NSLog("Giphy search success: \(gifs)")
                     observer.on(.Next(gifs))
                     observer.on(.Completed)
                 })
@@ -44,13 +43,13 @@ class GiphyManager {
                 .subscribeNext({ jsonDictionary in
                     
                     let gifs = GiphyGif.listFromResponse(jsonDictionary)
-                    NSLog("Giphy search success: \(gifs)")
                     observer.on(.Next(gifs))
                     observer.on(.Completed)
             })
         }
     }
 
+    // Giphy GET request
     
     private func giphyGetRequest(endpoint: GiphyEndpoint, customParams: [String: AnyObject]? = nil) -> Observable<JSONObject> {
         return Observable.create { observer in

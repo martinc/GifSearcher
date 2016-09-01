@@ -44,6 +44,7 @@ extension GiphyGif {
             gifURL = rendition[GiphyConfig.Properties.mp4] as? String,
             gifWidth = coerceInt(rendition[GiphyConfig.Properties.width]),
             gifHeight = coerceInt(rendition[GiphyConfig.Properties.height])
+            where !gifURL.isEmpty && gifWidth > 0 && gifHeight > 0
         {
             return GiphyGif(id: gifId,
                             size: CGSize(width: gifWidth, height: gifHeight),
