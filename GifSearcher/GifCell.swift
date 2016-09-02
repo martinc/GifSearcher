@@ -16,26 +16,39 @@ class GifCell: UITableViewCell {
     var player: AVPlayer?
     var videoLayer: AVPlayerLayer?
     
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        viewModel = nil
+        
+        if let oldLayer = videoLayer {
+            oldLayer.removeFromSuperlayer()
+            videoLayer = nil
+        }
+        
+        if let oldPlayer = player {
+            NSNotificationCenter.defaultCenter()
+                .removeObserver(self,
+                                name: AVPlayerItemDidPlayToEndTimeNotification,
+                                object: oldPlayer.currentItem)
+            player = nil
+        }
+    }
 
-    var gif: GiphyGif? {
-        didSet(oldValue) {
+    var viewModel: GifCellViewModel? {
+        didSet {
                         
-            if let oldLayer = videoLayer {
-                oldLayer.removeFromSuperlayer()
-                videoLayer = nil
-            }
-            
-            if let oldPlayer = player {
-                NSNotificationCenter.defaultCenter().removeObserver(self, name: AVPlayerItemDidPlayToEndTimeNotification, object: oldPlayer.currentItem)
-                player = nil
-            }
-            
-            if let gif = gif, let url = NSURL(string: gif.mp4URL) {
+            if let url = viewModel?.videoURL {
                 
                 let videoPlayer = AVPlayer(URL: url)
                 videoPlayer.actionAtItemEnd = .None
                 
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(playerReachedEnd), name: AVPlayerItemDidPlayToEndTimeNotification, object: videoPlayer.currentItem)
+                NSNotificationCenter.defaultCenter()
+                    .addObserver(self,
+                                 selector: #selector(playerReachedEnd),
+                                 name: AVPlayerItemDidPlayToEndTimeNotification,
+                                 object: videoPlayer.currentItem)
                 
                 let videoLayer = AVPlayerLayer(player: videoPlayer)
                 videoLayer.frame = self.contentView.frame

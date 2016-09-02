@@ -21,7 +21,7 @@ class GiphyManager {
     
     // Fetch Trending GIFs
     
-    func fetchTrendingGifs(limit: Int = 10) -> Observable<[GiphyGif]>  {
+    func fetchTrendingGifs(limit: Int = 25) -> Observable<[GiphyGif]>  {
         return Observable.create { observer in
             return self.giphyGetRequest(.Trending,
                 customParams: [GiphyConfig.Params.limit: limit])
@@ -36,7 +36,7 @@ class GiphyManager {
     
     // Search for GIFs
     
-    func searchForGifs(searchTerm: String, limit: Int = 10) -> Observable<[GiphyGif]> {
+    func searchForGifs(searchTerm: String, limit: Int = 25) -> Observable<[GiphyGif]> {
         return Observable.create { observer in
             return self.giphyGetRequest(.Search,
                             customParams: [GiphyConfig.Params.limit: limit, GiphyConfig.Params.search: searchTerm ])

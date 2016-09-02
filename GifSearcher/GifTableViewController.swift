@@ -11,18 +11,20 @@ import RxSwift
 import RxCocoa
 
 class GifTableViewController: UIViewController {
+    
+    // View Model
+    
+    private let viewModel = GifTableViewModel()
 
     // UI
     
     private let tableView = UITableView(frame: CGRect.zero, style: .Plain)
     private let searchController = UISearchController(searchResultsController: nil)
-
     private let rowHeight: CGFloat = 200.0
     
     // Data binding
     
     private let disposeBag = DisposeBag()
-    private let searchQuery = Variable("")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,34 +50,22 @@ class GifTableViewController: UIViewController {
     
     private func setupDataBinding() {
         
-        // Bind search bar text to our searchQuery Variable
+        // Bind search bar text to searchQuery Variable
         
         searchController.searchBar.rx_text
             .throttle(0.3, scheduler: MainScheduler.instance)
             .distinctUntilChanged()
             .subscribeNext { (query: String) -> Void in
-                self.searchQuery.value = query
+                self.viewModel.searchQuery.value = query
             }.addDisposableTo(disposeBag)
-
-        // Turn our searchQuery Variable into API Requests
         
-        let gifResults = self.searchQuery.asObservable()
-            .distinctUntilChanged()
-            .flatMapLatest { query -> Observable<[GiphyGif]> in
-                if query.isEmpty {
-                    return GiphyManager.sharedInstance.fetchTrendingGifs()
-                } else {
-                    return GiphyManager.sharedInstance.searchForGifs(query)
-                }
-        }.observeOn(MainScheduler.instance)
         
-        // Bind our API responses to table view cells
+        // Bind GIF Cell Model results to table view cells
         
-        gifResults
+        viewModel.gifResults
             .bindTo(tableView.rx_itemsWithCellIdentifier(GifCell.resuseIdentifier, cellType: GifCell.self)) {
-                (row, gif, cell) in
-                cell.textLabel?.text = gif.id
-                cell.gif = gif
+                (_, gifViewModel, cell) in
+                cell.viewModel = gifViewModel
             }
             .addDisposableTo(disposeBag)
 
@@ -103,7 +93,7 @@ class GifTableViewController: UIViewController {
         // When search controller dismisses, clear searchQuery Variable
         
         searchController.rx_willDismiss.subscribeNext {
-            self.searchQuery.value = ""
+            self.viewModel.searchQuery.value = ""
         }.addDisposableTo(disposeBag)
 
     }
