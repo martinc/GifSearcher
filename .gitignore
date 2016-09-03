@@ -12,6 +12,7 @@ xcuserdata/
 *.moved-aside
 *.xccheckout
 *.xcscmblueprint
+*.xcworkspacedata
 
 Pods/
 Podfile.lock
