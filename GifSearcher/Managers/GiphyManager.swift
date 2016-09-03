@@ -21,10 +21,12 @@ class GiphyManager {
     
     // Fetch Trending GIFs
     
-    func fetchTrendingGifs(limit: Int = 25) -> Observable<[GiphyGif]>  {
+    func fetchTrendingGifs(limit: Int = 10, offset: Int = 0) -> Observable<[GiphyGif]>  {
         return Observable.create { observer in
             return self.giphyGetRequest(.Trending,
-                customParams: [GiphyConfig.Params.limit: limit])
+                customParams: [
+                    GiphyConfig.Params.limit: limit,
+                    GiphyConfig.Params.offset: offset])
                 .subscribeNext({ jsonDictionary in
 
                     let gifs = GiphyGif.listFromResponse(jsonDictionary)
@@ -36,10 +38,13 @@ class GiphyManager {
     
     // Search for GIFs
     
-    func searchForGifs(searchTerm: String, limit: Int = 25) -> Observable<[GiphyGif]> {
+    func searchForGifs(searchTerm: String, limit: Int = 10, offset: Int = 0) -> Observable<[GiphyGif]> {
         return Observable.create { observer in
             return self.giphyGetRequest(.Search,
-                            customParams: [GiphyConfig.Params.limit: limit, GiphyConfig.Params.search: searchTerm ])
+                            customParams: [
+                                GiphyConfig.Params.limit: limit,
+                                GiphyConfig.Params.offset: offset,
+                                GiphyConfig.Params.search: searchTerm ])
                 .subscribeNext({ jsonDictionary in
                     
                     let gifs = GiphyGif.listFromResponse(jsonDictionary)
@@ -48,6 +53,7 @@ class GiphyManager {
             })
         }
     }
+    
 
     // Giphy GET request
     

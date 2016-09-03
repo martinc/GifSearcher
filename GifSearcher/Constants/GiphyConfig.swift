@@ -23,6 +23,7 @@ struct GiphyConfig {
     struct Params {
         static let apiKey = "api_key"
         static let limit = "limit"
+        static let offset = "offset"
         static let search = "q"
     }
     

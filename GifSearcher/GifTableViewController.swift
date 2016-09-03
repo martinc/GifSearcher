@@ -14,7 +14,7 @@ class GifTableViewController: UIViewController {
     
     // View Model
     
-    private let viewModel = GifTableViewModel()
+    private var viewModel: GifTableViewModel?
 
     // UI
     
@@ -32,7 +32,6 @@ class GifTableViewController: UIViewController {
         setupTableView()
         setupSearchController()
         setupDataBinding()
-        setupEventHandling()
     }
     
     private func setupTableView() {
@@ -50,28 +49,43 @@ class GifTableViewController: UIViewController {
     
     private func setupDataBinding() {
         
+        let loadNextPageTrigger = tableView.rx_willDisplayCell.flatMap { (cell, indexPath) -> Observable<Void> in
+            if let rowCount = self.tableView.dataSource?.tableView(self.tableView, numberOfRowsInSection: indexPath.section) {
+                if indexPath.row == rowCount - 1 {
+                    //Load another page
+                    return Observable.just(())
+                }
+            }
+            return Observable.empty()
+        }
+        
+        let viewModel = GifTableViewModel(loadNextPageTrigger: loadNextPageTrigger)
+        self.viewModel = viewModel
+        
+        // Bind GIF Results to table view cells
+        
+        if let gifResults = viewModel.gifResults {
+            gifResults
+                .bindTo(tableView.rx_itemsWithCellIdentifier(GifCell.resuseIdentifier, cellType: GifCell.self)) {
+                    (row, gifViewModel, cell) in
+                    cell.viewModel.value = gifViewModel
+                }
+                .addDisposableTo(disposeBag)
+        }
+        
         // Bind search bar text to searchQuery Variable
         
         searchController.searchBar.rx_text
             .throttle(0.3, scheduler: MainScheduler.instance)
             .distinctUntilChanged()
-            .subscribeNext { (query: String) -> Void in
-                self.viewModel.searchQuery.value = query
-            }.addDisposableTo(disposeBag)
-        
-        
-        // Bind GIF Cell Model results to table view cells
-        
-        viewModel.gifResults
-            .bindTo(tableView.rx_itemsWithCellIdentifier(GifCell.resuseIdentifier, cellType: GifCell.self)) {
-                (_, gifViewModel, cell) in
-                cell.viewModel = gifViewModel
-            }
+            .bindTo(viewModel.searchQuery)
             .addDisposableTo(disposeBag)
-
-    }
-    
-    private func setupEventHandling() {
+        
+        // When search controller dismisses, clear searchQuery Variable
+        
+        searchController.rx_willDismiss.subscribeNext {
+            self.viewModel?.searchQuery.value = ""
+        }.addDisposableTo(disposeBag)
         
         // Play movies when the cells appear
         
@@ -88,14 +102,6 @@ class GifTableViewController: UIViewController {
                 gifCell.stopPlaying()
             }
         }.addDisposableTo(disposeBag)
-        
-        
-        // When search controller dismisses, clear searchQuery Variable
-        
-        searchController.rx_willDismiss.subscribeNext {
-            self.viewModel.searchQuery.value = ""
-        }.addDisposableTo(disposeBag)
-
     }
 }
 
