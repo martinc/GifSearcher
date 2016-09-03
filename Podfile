@@ -6,6 +6,4 @@ target 'GifSearcher' do
   pod 'Alamofire', '~> 3.2.1'
   pod 'RxSwift', '~> 2.6.0'
   pod 'RxCocoa', '~> 2.6.0'
-  pod 'Cartography', '~> 0.6.0'
-
 end
